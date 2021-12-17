@@ -1,0 +1,33 @@
+Field 'searchSnapShot' has not been initialized.:
+
+late QuerySnapshot <Map<String, dynamic>> searchSnapShot;
+
+ans:When you use late it means that variable can be lazily initialised, So, before use it somewhere,
+ you need to Initialise thus you cannot make null checks on that,
+ If you want to make null checks on it then try ? which makes that variable a nullable.
+
+So remove late and add ?
+
+QuerySnapshot <Map<String, dynamic>>? searchSnapShot;
+
+
+question2:
+late File _image;
+
+Container(
+            child: Image.file(
+              _image,
+              fit: BoxFit.cover,
+            ),
+          )
+
+answer:
+File? _image;
+
+Container(
+   child: _image != null? Image.file(
+        _image,
+              fit: BoxFit.cover,
+            ) : const SizedBox(),
+         ),
+and uploadImage() if _image != null 
