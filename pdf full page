@@ -1,0 +1,9 @@
+ //To cover the a4 pdf 
+ pdf.addPage(pw.Page(
+              pageFormat: PdfPageFormat.a4,
+              build: (pw.Context contex) {
+                return pw.FullPage(
+                    ignoreMargins: true,
+                    child: pw.Image(image,fit: pw.BoxFit.fill),
+                  );                 
+              }));
