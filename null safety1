@@ -1,0 +1,9 @@
+User({required this.uid}) {
+    Database().getUser(uid).listen((User user) async {
+      displayName = user?.displayName;
+      email = user?.email;
+      phoneNumber = user?.phoneNumber;
+      photoURL = user?.photoURL;
+      notifyListeners();
+    });
+  }
