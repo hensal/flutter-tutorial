@@ -1,0 +1,61 @@
+https://stackoverflow.com/questions/64278595/null-check-operator-used-on-a-null-value
+
+Problem:
+This error occurs when you use a bang operator (!) on a nullable instance which wasn't initialized.
+
+For example:
+
+String? foo; // Nullable String
+
+void main() {
+  var len = foo!.length; // Runtime error: Null check operator used on a null value
+}
+Solutions:
+You need to find out where you're using the bang operator in your code. Once you are there, you can use any of the following solutions:
+
+Use a local variable
+
+var f = foo;
+if (f != null) {
+  var len = f.length; // Safe 
+}
+Use ?. and ??
+
+var len = foo?.length ?? 0; // Provide a default value if foo was null.
+To answer your question:
+You're using
+
+Colors.blueAccent.shade50
+which doesn't have 50th shade. If you look into the source code, you'd find:
+
+Color get shade50 => this[50]!; // <-- This bang operator is causing the error.
+To solve this error, you should use some other color which is not null, maybe the 100th shade.
+
+Colors.blueAccent[100]
+// or
+Colors.blue.shade100
+For those who are using FutureBuilder/StreamBuilder:
+You can solve the error in two ways:
+
+Specify a type to your FutureBuilder/StreamBuilder
+
+FutureBuilder<List<int>>( // <-- type 'List<int>' is specified.
+  future: _listOfInt(),
+  builder: (_, snapshot) {
+    if (snapshot.hasData) {
+      List<int> myList = snapshot.data!; // <-- Your data
+    }
+    return Container();
+  },
+)
+Use as to downcast Object to your type, say a List or Map.
+
+FutureBuilder(
+  future: _listOfInt(),
+  builder: (_, snapshot) {
+    if (snapshot.hasData) {
+      var myList = snapshot.data! as List<int>; // <-- Your data using 'as'
+    }
+    return Container();
+  },
+)
